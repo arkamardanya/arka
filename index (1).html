@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKA - Admin Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'communist-red': '#DE0000',
+                        'communist-gold': '#FFFF00',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-communist-red text-communist-gold p-4">
+        <div class="container mx-auto">
+            <h1 class="text-4xl font-bold">ARKA Admin</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto mt-8 p-4">
+        <section id="add-vlog" class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-communist-red">Add New Vlog</h2>
+            <form>
+                <div class="mb-4">
+                    <label for="vlog-title" class="block text-gray-700 font-bold mb-2">Vlog Title</label>
+                    <input type="text" id="vlog-title" name="vlog-title" class="w-full px-3 py-2 border rounded-lg text-gray-700" required>
+                </div>
+                <div class="mb-4">
+                    <label for="vlog-content" class="block text-gray-700 font-bold mb-2">Vlog Content</label>
+                    <textarea id="vlog-content" name="vlog-content" rows="4" class="w-full px-3 py-2 border rounded-lg text-gray-700" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="vlog-date" class="block text-gray-700 font-bold mb-2">Vlog Date</label>
+                    <input type="date" id="vlog-date" name="vlog-date" class="w-full px-3 py-2 border rounded-lg text-gray-700" required>
+                </div>
+                <button type="submit" class="bg-communist-red text-white font-bold py-2 px-4 rounded">Add Vlog</button>
+            </form>
+        </section>
+
+        <section id="edit-concepts" class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-communist-red">Edit Concepts</h2>
+            <form>
+                <div id="concept-list">
+                    <!-- Concept items will be dynamically added here -->
+                </div>
+                <button type="button" id="add-concept" class="bg-communist-red text-white font-bold py-2 px-4 rounded mt-4">Add Concept</button>
+                <button type="submit" class="bg-communist-red text-white font-bold py-2 px-4 rounded mt-4 ml-2">Save Changes</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // Simulating concepts (in a real scenario, these would be loaded from a database)
+        let concepts = [
+            { name: "Socialism", url: "https://en.wikipedia.org/wiki/Socialism" },
+            { name: "Marxism", url: "https://en.wikipedia.org/wiki/Marxism" },
+            { name: "Class Struggle", url: "https://en.wikipedia.org/wiki/Class_struggle" },
+            { name: "Proletariat", url: "https://en.wikipedia.org/wiki/Proletariat" }
+        ];
+
+        const conceptList = document.getElementById('concept-list');
+        const addConceptButton = document.getElementById('add-concept');
+
+        function renderConcepts() {
+            conceptList.innerHTML = '';
+            concepts.forEach((concept, index) => {
+                const conceptElement = document.createElement('div');
+                conceptElement.className = 'mb-4';
+                conceptElement.innerHTML = `
+                    <input type="text" name="concept-name-${index}" value="${concept.name}" class="w-full px-3 py-2 border rounded-lg text-gray-700 mb-2" required>
+                    <input type="url" name="concept-url-${index}" value="${concept.url}" class="w-full px-3 py-2 border rounded-lg text-gray-700 mb-2" required>
+                    <button type="button" class="bg-red-500 text-white font-bold py-1 px-2 rounded" onclick="removeConcept(${index})">Remove</button>
+                `;
+                conceptList.appendChild(conceptElement);
+            });
+        }
+
+        function addConcept() {
+            concepts.push({ name: "", url: "" });
+            renderConcepts();
+        }
+
+        function removeConcept(index) {
+            concepts.splice(index, 1);
+            renderConcepts();
+        }
+
+        addConceptButton.addEventListener('click', addConcept);
+
+        renderConcepts();
+    </script>
+</body>
+</html>
